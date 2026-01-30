@@ -1,28 +1,39 @@
-# Example file showing a basic pygame "game loop"
 import pygame
+from game.heart import Heart
 
-# pygame setup
+#initialization
 pygame.init()
-#screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-screen = pygame.display.set_mode((1280, 720))
+
+WIDTH, HEIGHT = 1820, 1080
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Valentinstag ❤️")
+
 clock = pygame.time.Clock()
 running = True
 
+#objects
+heart_image = pygame.image.load("assets/images/heart-sprite.png").convert_alpha()
+
+heart = Heart(
+    image=heart_image,
+    position=(WIDTH // 2, HEIGHT // 2)
+)
+
+#game
 while running:
-    # poll for events
-    # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    # fill the screen with a color to wipe away anything from last frame
-    screen.fill("green")
+        gained_hearts = heart.handle_event(event)
+        if gained_hearts > 0:
+            print("hearts gained:", gained_hearts)
+            # bank.addHearts(gained_hearts)
 
-    # RENDER YOUR GAME HERE
+    screen.fill((255, 230, 240))
+    heart.draw(screen)
 
-    # flip() the display to put your work on screen
     pygame.display.flip()
-
-    clock.tick(60)  # limits FPS to 60
+    clock.tick(60)
 
 pygame.quit()
