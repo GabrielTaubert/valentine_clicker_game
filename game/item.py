@@ -16,7 +16,14 @@ class Item:
         self.price = price
         self.name = name
         self.image = image
+        self.rect = self.image.get_rect()
         self.is_bought = False
+
+    def set_position(self, position):
+        self.rect.center = position
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
 
     def buy(self):
         self.is_bought = True
