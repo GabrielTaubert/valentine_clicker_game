@@ -35,8 +35,8 @@ running = True
 heart_image = pygame.image.load("assets/images/heart-sprite.png").convert_alpha()
 
 heart_image = pygame.transform.scale(heart_image,
-                                     (heart_image.get_width() * 2,
-                                      heart_image.get_height() * 2))
+                                     (heart_image.get_width() * 2.5,
+                                      heart_image.get_height() * 2.5))
 
 bank_image = pygame.image.load("assets/images/heart-bank.png").convert_alpha()
 
@@ -72,23 +72,40 @@ items = [ chocolate, house_key, cat_collar, diamond_ring, letter]
 
 shop.init_items(items)
 
+auto_timer = 0
+
 #game
 while running:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        dt = clock.tick(60) / 1000
+        auto_timer += dt
+
+        heart.update(dt)
+
+        if auto_timer >= 1: #triggers every second
+            automatic_hearts = heart.automatic_hearts_per_second
+            bank.addHearts(automatic_hearts)
+            auto_timer = 0
 
         gained_hearts = heart.handle_event(event)
         if gained_hearts > 0:
             bank.addHearts(gained_hearts)
 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                mouse_pos = pygame.mouse.get_pos()
+                shop.handle_click(mouse_pos, bank, heart)
+
     screen.blit(background, (0, 0))
 
     heart.draw(screen)
     bank.draw(screen, heart)
-    shop.draw(screen)
+    shop.draw(screen, bank)
 
     pygame.display.flip()
-    clock.tick(60)
 
 pygame.quit()

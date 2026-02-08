@@ -10,5 +10,5 @@ class CatCollar(Item):
 
     def __init__(self, image):
         Item.__init__(self, image)
-        self.price = 100
+        self.price = 400
         self.name = "Cat Collar"

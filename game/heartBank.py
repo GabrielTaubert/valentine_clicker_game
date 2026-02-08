@@ -32,12 +32,17 @@ class HeartBank:
         text_hpc_x = self.position[0] - 230
         text_hpc_y = self.position[1] + 16
 
+        text_hps = self.font.render(f"HPs: +{heart.automatic_hearts_per_second}", True, (148, 27, 45))
+
+        text_hps_x = self.position[0]
+        text_hps_y = self.position[1] + 16
+
         screen.blit(text_heart, (text_heart_x, text_heart_y))
         screen.blit(text_hpc, (text_hpc_x, text_hpc_y))
+        screen.blit(text_hps, (text_hps_x, text_hps_y))
 
     def addHearts(self, amount ):
         self.hearts += amount
-        print(self.hearts)
 
     def removeHearts(self, amount):
         self.hearts -= amount

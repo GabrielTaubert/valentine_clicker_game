@@ -19,7 +19,7 @@ class Shop:
         self.spacing = 20 #space between items
         self.font = pygame.font.Font("assets/font/Minecraft.ttf", 50)
 
-    def draw(self, screen):
+    def draw(self, screen, bank):
         screen.blit(self.image, self.rect)
 
         text = self.font.render("Shop", True, (148, 27, 45))
@@ -30,7 +30,8 @@ class Shop:
         screen.blit(text, (text_x, text_y))
 
         for item in self.items:
-            item.draw(screen)
+            is_buyable = self.check_item_buyable(item, bank)
+            item.draw(screen, is_buyable)
 
     def init_items(self, items: list):
         self.items = items
@@ -43,8 +44,28 @@ class Shop:
             item.set_position((x, y))
             x += item.rect.width + self.spacing
 
-    def check_item_buyable(self, item, bank):
-        pass
+    def handle_click(self, mouse_pos, bank, heart):
+        for item in self.items:
 
-    def buy_item(self, item, bank):
-        pass
+            if item.rect.collidepoint(mouse_pos):
+
+                if item.is_bought:
+                    return
+
+                #not every items needs heart class
+                base_dict = {
+                    "heart": heart,
+                }
+
+                if self.check_item_buyable(item, bank):
+                    self.buy_item(item, bank, base_dict)
+
+    def check_item_buyable(self, item, bank):
+        if bank.hearts >= item.price:
+            return True
+        else:
+            return False
+
+    def buy_item(self, item, bank, base_dict):
+        bank.hearts -= item.price
+        item.buy(base_dict)
