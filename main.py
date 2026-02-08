@@ -40,7 +40,7 @@ heart_image = pygame.transform.scale(heart_image,
 
 bank_image = pygame.image.load("assets/images/heart-bank.png").convert_alpha()
 
-shop_image = pygame.image.load("assets/images/shop-banner.png").convert_alpha()
+shop_image = pygame.image.load("assets/images/shop-banner-2.png").convert_alpha()
 
 cat_image = pygame.image.load("assets/images/cat-collar.png").convert_alpha()
 
@@ -68,7 +68,7 @@ house_key = HouseKey(image=key_image)
 
 letter = Letter(image=letter_image)
 
-items = [ cat_collar, chocolate, house_key, diamond_ring, letter]
+items = [ chocolate, house_key, cat_collar, diamond_ring, letter]
 
 shop.init_items(items)
 
