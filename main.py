@@ -1,4 +1,6 @@
 import pygame
+
+from game.button import Button
 from game.heart import Heart
 from game.heartBank import HeartBank
 from game.items.cat_collar import CatCollar
@@ -52,11 +54,15 @@ key_image = pygame.image.load("assets/images/house-key.png").convert_alpha()
 
 letter_image = pygame.image.load("assets/images/letter.png").convert_alpha()
 
+button_image = pygame.image.load("assets/images/button.png").convert_alpha()
+
 heart = Heart(image=heart_image, position=(WIDTH // 2, HEIGHT // 2.5))
 
 bank = HeartBank(image=bank_image, position=(300, 100))
 
 shop = Shop(image=shop_image, position=(WIDTH // 2, HEIGHT // 1.3))
+
+quit_button = Button(image=button_image, position=(WIDTH // 2, HEIGHT // 1.1))
 
 cat_collar = CatCollar(image=cat_image)
 
@@ -90,6 +96,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        if quit_button.handle_event(event):
+            running = False
+
         gained_hearts = heart.handle_event(event)
         if gained_hearts > 0:
             bank.addHearts(gained_hearts)
@@ -104,6 +113,7 @@ while running:
     heart.draw(screen)
     bank.draw(screen, heart)
     shop.draw(screen, bank)
+    quit_button.draw(screen)
 
     pygame.display.flip()
 
